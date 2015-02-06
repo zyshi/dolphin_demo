@@ -150,7 +150,6 @@ def autoplotGenerator(fname):
 
 	# create a separate datas folder to store ds js files for this data
 	datadirectory = __SAVE_DATA_DIR + "/" + string.replace(fname,".xls", "");
-	print datadirectory
 	if not os.path.exists(datadirectory):
 		os.makedirs(datadirectory)
 
@@ -208,19 +207,16 @@ def autoplotGenerator(fname):
 					# generate d3.js files
 					if x_is_number and y_is_number :
 						output = jsdirectory + "/scatterplot_x" + str(col1) + "_y" + str(col2) + ".js"
-                                                print "generating the scatter plot"
 						generatePlot("scatter", rawxlsfile, output, x_index_name, y_index_name, col1, col2, datadirectory)
 						inc = string.replace(scriptinc, "filepath", output)
 						outputscatterfile.write(inc)
 					elif x_is_number and y_is_string:
 						output = jsdirectory + "/barplot_x" + str(col2) + "_y" + str(col1) + ".js"
-                                                print "generating the bar plot"
 						generatePlot("bar", rawxlsfile, output, y_index_name, x_index_name, col2, col1, datadirectory)
 						inc = string.replace(scriptinc, "filepath", output)
 						outputbarfile.write(inc)
 					elif x_is_string and y_is_number:
 						output = jsdirectory + "/barplot_x" + str(col1) + "_y" + str(col2) + ".js"
-                                                print "generating the bar plot"
 						generatePlot("bar", rawxlsfile, output, x_index_name, y_index_name, col1, col2, datadirectory)
 						inc = string.replace(scriptinc, "filepath", output)
 						outputbarfile.write(inc)
@@ -234,5 +230,4 @@ def autoplotGenerator(fname):
 	visuallist = []
 	visuallist.append(string.replace(outputbarfilename, __TEMP_DIR, ""))
 	visuallist.append(string.replace(outputscatterfilename, __TEMP_DIR, ""))
-        print visuallist[1]
 	return visuallist
