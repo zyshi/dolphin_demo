@@ -156,21 +156,18 @@ def autoplotGenerator(fname):
 
 	# open the workbook
 	wb = open_workbook(rawxlsfile)
-
 	# open result html template
 	htmltemp = __TEMP_DIR + "/plot_temp.html"
 	# open result html to write
 	outputbarfilename = __TEMP_DIR + "/auto_visual_bar_" + string.replace(fname,".xls", "") + ".html"
 	outputbarfile = open(outputbarfilename, 'w')
 	outputbarfile.truncate()
-
+	
 	outputscatterfilename = __TEMP_DIR + "/auto_visual_scatter_" + string.replace(fname,".xls", "") + ".html"
 	outputscatterfile = open(outputscatterfilename, 'w')
 	outputscatterfile.truncate()
 
 	scriptinc = "<script src='filepath'></script>"
-
-
 	with open(htmltemp) as htmlfile:
 		for line in htmlfile:
 			outputbarfile.write(line)
@@ -182,7 +179,7 @@ def autoplotGenerator(fname):
 			x_is_number = True
 			x_is_string = True
 			y_is_number = True
-			x_is_string = True
+			y_is_string = True
 			# escape the blank space to _
 			x_index_name = string.replace(str(s.cell(0, col1).value), " ", "_")
 			# check whether all x_val is number 
@@ -211,16 +208,19 @@ def autoplotGenerator(fname):
 					# generate d3.js files
 					if x_is_number and y_is_number :
 						output = jsdirectory + "/scatterplot_x" + str(col1) + "_y" + str(col2) + ".js"
+                                                print "generating the scatter plot"
 						generatePlot("scatter", rawxlsfile, output, x_index_name, y_index_name, col1, col2, datadirectory)
 						inc = string.replace(scriptinc, "filepath", output)
 						outputscatterfile.write(inc)
 					elif x_is_number and y_is_string:
 						output = jsdirectory + "/barplot_x" + str(col2) + "_y" + str(col1) + ".js"
+                                                print "generating the bar plot"
 						generatePlot("bar", rawxlsfile, output, y_index_name, x_index_name, col2, col1, datadirectory)
 						inc = string.replace(scriptinc, "filepath", output)
 						outputbarfile.write(inc)
 					elif x_is_string and y_is_number:
 						output = jsdirectory + "/barplot_x" + str(col1) + "_y" + str(col2) + ".js"
+                                                print "generating the bar plot"
 						generatePlot("bar", rawxlsfile, output, x_index_name, y_index_name, col1, col2, datadirectory)
 						inc = string.replace(scriptinc, "filepath", output)
 						outputbarfile.write(inc)
@@ -234,5 +234,5 @@ def autoplotGenerator(fname):
 	visuallist = []
 	visuallist.append(string.replace(outputbarfilename, __TEMP_DIR, ""))
 	visuallist.append(string.replace(outputscatterfilename, __TEMP_DIR, ""))
-
+        print visuallist[1]
 	return visuallist

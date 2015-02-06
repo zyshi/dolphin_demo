@@ -53,7 +53,9 @@ def show_result_page():
         celtarr.append(cquery)
         output = autoplotGenerator(cquery)
         celtarr.extend(output)
-        return render_template("plot_dir_temp.html", eltarr = celtarr)
+        if output == []:
+            return "no visual is generated for your file"
+	return render_template("plot_dir_temp.html", eltarr = celtarr)
 
 @app.route("/plots", methods=['GET', 'POST'])
 def show_plot_page():
@@ -63,4 +65,5 @@ def show_plot_page():
         return render_template(cquery)
 
 if __name__ == "__main__":
-    app.run()
+#    app.run()
+    app.run(host= '0.0.0.0')
